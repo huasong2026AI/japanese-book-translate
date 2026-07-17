@@ -151,7 +151,7 @@ else:
     st.sidebar.markdown("🙋‍♂️ **没有 Key 和卡密？**")
     st.sidebar.markdown("为了保护隐私，本站不公开微信。如果您想体验内置额度，请点击下方按钮留下您的联系方式，作者看到后会使用微信小号主动联系您发放卡密！")
     
-    # 🔗 已经无缝接入你刚才生成的专属腾讯文档表单链接
+    # 🔗 已经无缝接入你生成的专属腾讯文档表单链接
     form_link = "https://docs.qq.com/form/page/DTW1TVUZMYnFLWlhX" 
     
     st.sidebar.markdown(f"""
@@ -179,7 +179,8 @@ else:
         st.sidebar.error("❌ 无效的卡密，请重新输入或联系作者。")
 
 # --- 📦 主界面业务逻辑 ---
-# 第一步：文件上传卡片
+
+# 第一步：文件上传卡片（用 <div class="section-card"> 将上传组件完整包裹起来）
 st.markdown('<div class="section-card">', unsafe_allow_html=True)
 st.subheader("📥 第一步：上传需要处理的 PDF 绘本")
 uploaded_files = st.file_uploader(
@@ -189,7 +190,7 @@ uploaded_files = st.file_uploader(
 )
 st.markdown('</div>', unsafe_allow_html=True)
 
-# 第二步：批量翻译卡片
+# 第二步：批量翻译卡片（确保 <div class="section-card"> 只在有文件上传成功时，才在 if 内部渲染包裹）
 if uploaded_files:
     st.markdown('<div class="section-card">', unsafe_allow_html=True)
     st.info(f"📁 已成功载入 {len(uploaded_files)} 个 PDF 文件。")
@@ -227,7 +228,7 @@ if uploaded_files:
                             prompt = (
                                 "你是一个精通中日双语的儿童绘本翻译专家。\n"
                                 "输入的内容是从带有汉字注音（振假名）的日语绘本中直接提取出的文本。\n"
-                                "由于提取原因，汉字头顶的微小假名可能混在了正文里（例如：友（とも）だちは，或者断行错乱）。\n"
+                                "由于提取原因，汉字头顶的微小假名可能混在了正文里（例如：友（とも）动词は，或者断行错乱）。\n"
                                 "请你完成两件事：\n"
                                 "1. 帮我理顺语序，剔除多余的注音干扰，还原出原本干净的日语正文。\n"
                                 "2. 将其翻译成富有童趣、生动、符合中国儿童阅读习惯的中文。\n\n"
